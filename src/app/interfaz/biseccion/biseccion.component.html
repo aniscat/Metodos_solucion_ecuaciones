@@ -1,0 +1,24 @@
+<div class="container">
+    <h3>Método Bisección</h3>
+    <form>
+        <label for="Valores">Introduce los valores iniciales</label>
+        <div class="row">
+            <div class="col">
+                <input class="form-control" type="number" name="xi" id="Valores" placeholder="xi"id="xi" [(ngModel)]="xi">
+            </div>
+            <div class="col">
+                <input class="form-control" type="number" name="xs" id="Valores" placeholder="xs" id="xs" [(ngModel)]="xs">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="error">Introduce el error permitido</label>
+            <input class="form-control" type="number" name="error" id="error" placeholder="Error" [(ngModel)]="error">
+        </div>
+        <br>
+        <div class="form-group">
+            <input class="form-control btn btn-primary" type="submit" value="Calcular" (click)="biseccion()">
+        </div>
+    </form>
+
+
+</div>

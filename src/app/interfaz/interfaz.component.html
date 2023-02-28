@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="well form">
+        <form >
+            <h1 class="text-center">Métodos de solución de ecuaciones</h1>
+            <div class="form-group">
+                <label for="formula">Introduce la Ecuación</label>
+                <input class="form-control" type="text" name="ecuacion" id="ecuacion"  [(ngModel)]="ecua">
+            </div>
+            <div class="form-group">
+                <label for="metodo">Selecciona un método</label>
+                <select name="opciones" class="form-control" [(ngModel)]="opcionSeleccionado" (change)="capturar()">
+                    <option value="0">Seleccionar...</option>
+                    <option value="Punto Fijo">Punto Fijo</option>
+                    <option value="Bisección">Bisección</option>
+                    <option value="Newton-Raphson">Newton-Raphson</option>
+                    <option value="Secante">Secante</option>
+                </select>
+            </div><br>
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" value="Seleccionar" (click)="resolver()">
+            </div>
+
+        </form>
+        <div>
+            <div id="biseccion">
+                <app-biseccion [ecua]="ecua"></app-biseccion>
+            </div>
+        </div>
+    </div>
+</div>
