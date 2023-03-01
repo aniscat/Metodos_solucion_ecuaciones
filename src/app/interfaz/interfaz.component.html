@@ -16,14 +16,36 @@
                     <option value="Secante">Secante</option>
                 </select>
             </div><br>
-            <div class="form-group">
-                <input class="btn btn-primary" type="submit" value="Seleccionar" (click)="resolver()">
+            <div class="row text-center">
+                <div class="col">
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" value="Seleccionar" (click)="resolver()">
+                    </div>
+                </div>   
+                <div class="col">
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" value="   Graficar  " (click)="graficar()">
+                    </div>
+                </div>            
             </div>
 
         </form>
         <div>
             <div id="biseccion">
+                <!-- mandar una variable al componente hijo -->
                 <app-biseccion [ecua]="ecua"></app-biseccion>
+            </div>
+            <div id="punto-fijo">
+                <!-- mandar una variable al componente hijo -->
+                <app-punto-fijo [ecua]="ecua"></app-punto-fijo>
+            </div>
+            <div id="Newton-Raphson">
+                <!-- mandar una variable al componente hijo -->
+                <app-newton-raphson [ecua]="ecua"></app-newton-raphson>
+            </div>
+            <div id="secante">
+                <!-- mandar una variable al componente hijo -->
+                <app-secante [ecua]="ecua"></app-secante>
             </div>
         </div>
     </div>

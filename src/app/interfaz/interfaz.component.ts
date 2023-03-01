@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GraficarEcuaService } from '../graficar-ecua.service';
 
 @Component({
   selector: 'app-interfaz',
@@ -8,7 +9,10 @@ import { Component } from '@angular/core';
 export class InterfazComponent {
   opcionSeleccionado: string = '0';
   verSeleccion: string = '';
-  public ecua:string = "x*x*x+2*(x*x)+10* x-20";    
+  public ecua:string = "x*x+4*x+4";  
+  
+  constructor(private servicioGraficar:GraficarEcuaService) {;  
+  }
   ngOnInit(): void{
     // this.ecua = (document.getElementById('ecuacion').innerHTML)!;
   }
@@ -22,6 +26,13 @@ export class InterfazComponent {
       metodo.style.display = 'block';
 
     }
+  }
+  //Nada mas pasamos la ecua al componente graficar
+  graficar(){
+    this.servicioGraficar.disparador.emit(this.ecua);
+    this.servicioGraficar.disparador.subscribe(render=>{
+      render();
+    })
   }
 
 }

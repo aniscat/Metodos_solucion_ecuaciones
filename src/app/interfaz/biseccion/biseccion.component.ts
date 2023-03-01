@@ -1,5 +1,5 @@
 import { Input, Component } from '@angular/core';
-import { InterfazComponent } from '../interfaz.component';
+import { GraficarEcuaService } from 'src/app/graficar-ecua.service';
 
 @Component({
   selector: 'app-biseccion',
@@ -9,14 +9,18 @@ import { InterfazComponent } from '../interfaz.component';
 export class BiseccionComponent {
   //recibir la variable del componente padre
   @Input() ecua:string ="";
+  constructor(private servicioGraficar:GraficarEcuaService){
+
+  }
   
+
+
+  xm: number = 0;
   xi: number = 1;
   xs: number = 2;
  error: number = 0.003;
   biseccion(): void {
     console.log('hola');
-   
-    let xm: number = 0;
     
     let errC: number = 1;
     let ev1: number = 0;
@@ -35,7 +39,7 @@ export class BiseccionComponent {
     
     
     while (errC > this.error) {
-      xm = (this.xi + this.xs) / 2;
+      this.xm = (this.xi + this.xs) / 2;
       // console.log("hola");
       // console.log(1);
       // console.log(errC);
@@ -49,24 +53,25 @@ export class BiseccionComponent {
       let x =this.xi;
       ev1= eval(this.ecua);
       console.log("ev1",ev1);
-      x =xm;
+      x =this.xm;
       ev2= eval(this.ecua);
       console.log("ev2",ev2);
-      errC = Math.abs(xm-this.xi);
+      errC = Math.abs(this.xm-this.xi);
 
       if (ev1 * ev2 < 0) {
-        this.xs = xm;
-        console.log("Iteracion :", iteraciones, "raiz: ", xm);
+        this.xs = this.xm;
+        console.log("Iteracion :", iteraciones, "raiz: ", this.xm);
         
       } else if (ev1 * ev2 > 0) {
-        this.xi = xm;
-        console.log("Iteracion :", iteraciones, "raiz: ", xm);
+        this.xi = this.xm;
+        console.log("Iteracion :", iteraciones, "raiz: ", this.xm);
       } else if (ev1 * ev2 == 0) {
-        console.log("Iteracion :", iteraciones, "raiz: ", xm);
+        console.log("Iteracion :", iteraciones, "raiz: ", this.xm);
       }
       iteraciones++;
     }
     console.log(iteraciones);
     
+    this.servicioGraficar.disparador.emit(this.xm);
   }
 }

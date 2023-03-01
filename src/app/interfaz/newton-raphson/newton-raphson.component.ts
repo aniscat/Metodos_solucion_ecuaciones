@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-newton-raphson',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./newton-raphson.component.css']
 })
 export class NewtonRaphsonComponent {
-
+  @Input() ecua:string ="";
 }

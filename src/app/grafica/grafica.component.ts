@@ -1,5 +1,5 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
-import { InterfazComponent } from '../interfaz/interfaz.component';
+import { GraficarEcuaService } from '../graficar-ecua.service';
 @Component({
   selector: 'app-grafica',
   templateUrl: './grafica.component.html',
@@ -13,15 +13,28 @@ export class GraficaComponent {
   public escala = 10;
   public ejex = 1;
   public ejey = 1;
-
-
+  public raiz =0;
+  // "x*x*x+2*(x*x)+10* x-20"
+  public ecuacion: string = "";
   private contexto: CanvasRenderingContext2D;
+
+  constructor(private servicioGraficar: GraficarEcuaService) {
+  }
 
   ngOnInit(): void {
     this.width = window.innerWidth - (window.innerWidth * 0.6);
     this.height = window.innerHeight - (window.innerHeight * 0.1);
-    this.ejex = this.width /2;
-    this.ejey = this.height /2;
+    this.ejex = this.width / 2;
+    this.ejey = this.height / 2;
+    this.servicioGraficar.disparador.subscribe(ecua => {
+      console.log(ecua);
+      this.ecuacion = ecua;
+
+    })
+    this.servicioGraficar.disparador.emit(this.render());
+    this.servicioGraficar.disparador.subscribe(xm=>{
+      this.raiz = xm;
+    })
 
   }
   ngAfterViewInit(): void {
@@ -31,10 +44,12 @@ export class GraficaComponent {
   @HostListener('document:keydown', ['$event'])
   onPageUp(event: any) {
     // console.log(event);
-    
+
 
     switch (event.key) {
+      
       case 'PageUp':
+        event.preventDefault;
         if (this.escala > 140) {
           this.escala = 10;
         } else {
@@ -45,6 +60,7 @@ export class GraficaComponent {
 
         break;
       case 'PageDown':
+        event.preventDefault;
         if (this.escala < 5) {
           this.escala = 5;
         } else {
@@ -54,31 +70,33 @@ export class GraficaComponent {
         // console.log(this.escala);
 
         break;
-        case 'ArrowDown':
-          event.preventDefault();
-          this.ejey--;
-          this.render();
-          console.log(this.ejex);
-          
+      case 'ArrowDown':
+        event.preventDefault();
+        this.ejey--;
+        this.render();
+        console.log(this.ejex);
+
         break;
-        case 'ArrowUp':
-          event.preventDefault();
-          this.ejey++;
-          this.render();
-          console.log(this.ejey);
-          
+      case 'ArrowUp':
+        event.preventDefault();
+        this.ejey++;
+        this.render();
+        console.log(this.ejey);
+
         break;
-        case 'ArrowRight':
-          this.ejex--;
-          this.render();
-          console.log(this.ejex);
-          
+      case 'ArrowRight':
+        event.preventDefault;
+        this.ejex--;
+        this.render();
+        console.log(this.ejex);
+
         break;
-        case 'ArrowLeft':
-          this.ejex++;
-          this.render();
-          console.log(this.ejey);
-          
+      case 'ArrowLeft':
+        event.preventDefault;
+        this.ejex++;
+        this.render();
+        console.log(this.ejey);
+
         break;
       default:
         break;
@@ -89,7 +107,7 @@ export class GraficaComponent {
 
   private render(): any {
     //con nativeElement manipular directamente elementos del DOM, segun angular es mala práctica por que no permite reutilizar codigo
-    const canvas = this.canvasRef.nativeElement;
+    const canvas: any = document.getElementById('canvas')!;;
     this.contexto = canvas.getContext('2d');
     canvas.width = this.width;
     canvas.height = this.height;
@@ -99,6 +117,11 @@ export class GraficaComponent {
     // this.ejex = canvas.width / 2;
     // this.ejey = canvas.height / 2;
     this.DrawEXY(canvas, this.contexto, this.ejex, this.ejey, this.escala);
+
+    if (this.ecuacion != 'undefined') {
+      this.graficar(this.ecuacion, canvas, this.contexto, this.ejex, this.ejey, this.escala);
+    }
+
   }
   private DrawEXY(canvas: any, contexto: any, ejex: number, ejey: number, escala: number): void {
     contexto.strokeRect(ejex, 0, 1, canvas.height);
@@ -108,11 +131,11 @@ export class GraficaComponent {
     // contexto.font = '8px monospace';
     contexto.strokeStyle = 'black';
     //Dibuja regla
-    for (let i = 0; i < canvas.height*escala; i = i + escala) {
+    for (let i = 0; i < canvas.height * escala; i = i + escala) {
       contexto.strokeRect(ejex - 2, ejey + i, 5, 0.5);
       contexto.strokeRect(ejex - 2, ejey - i, 5, 0.5);
     }
-    for (let i = 0; i < canvas.width*escala; i = i + escala) {
+    for (let i = 0; i < canvas.width * escala; i = i + escala) {
       contexto.strokeRect(ejex + i, ejey - 2, 0.5, 5);
       contexto.strokeRect(ejex - i, ejey - 2, 0.5, 5);
     }
@@ -124,7 +147,7 @@ export class GraficaComponent {
     //   t += 20;
     // }
     // for (var i = 2; i < canvas.width; i += 2) {
-  
+
     // 	if (i >= 8) {
     // 		contexto.fillText(i, (ejex + t), ejey + 12);
     // 		contexto.fillText("-" + i, (ejex - t2), ejey + 12);
@@ -138,11 +161,41 @@ export class GraficaComponent {
     // 		t += 20;
     // 	}
     // }
-  
+
   }
-  
+  graficar(ecua: string, canvas: any, contexto: any, ejex: number, ejey: number, escala: number): void {
+    contexto.strokeStyle = 'black';
+    let x = (-10);
+    let limite = (10);
+    let resultado = (eval(ecua));
+    console.log("hol");
+    // console.log(resultado);
+    contexto.beginPath();
+    for (let i = x; i < limite; i+=0.1) {
+      x=i;
+      contexto.lineTo(ejex + (i*escala), ejey -(resultado*escala));
+      resultado = eval(ecua);
+      if (x<this.raiz && x>-this.raiz) {
+        contexto.stroke();
+        contexto.closePath();
+        contexto.beginPath();
+        contexto.fillStyle ="red";
+        contexto.arc(ejex + (i*escala), ejey -(resultado*escala), 4, 0, Math.PI * 2, true);
+        contexto.fill();
+        contexto.closePath();
+        contexto.beginPath();
+      }
+      console.log("resultado", resultado, "x", x);
+    }
+    contexto.stroke();
+  }
+
+
+
+  // }
 
 }
+
 
 
 
