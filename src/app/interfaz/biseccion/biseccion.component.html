@@ -1,13 +1,13 @@
-<div class="container">
+<div class="container"> 
     <h3>Método Bisección</h3>
     <form>
         <label for="Valores">Introduce los valores iniciales</label>
         <div class="row">
             <div class="col">
-                <input class="form-control" type="number" name="xi" id="Valores" placeholder="xi"id="xi" [(ngModel)]="xi">
+                <input class="form-control" type="number" name="xi" placeholder="xi" id="xi">
             </div>
             <div class="col">
-                <input class="form-control" type="number" name="xs" id="Valores" placeholder="xs" id="xs" [(ngModel)]="xs">
+                <input class="form-control" type="number" name="xs" placeholder="xs" id="xs">
             </div>
         </div>
         <div class="form-group">
@@ -19,6 +19,26 @@
             <input class="form-control btn btn-primary" type="submit" value="Calcular" (click)="biseccion()">
         </div>
     </form>
-
+    <br>
+    <div class="table-responsive text-center row justify-content-center">
+        <div class="col-auto">
+            <table id="table" class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col" class="table-warning">i</th>
+                    <th scope="col" class="table-warning">x<sub>i</sub></th>
+                    <th scope="col" class="table-warning">x<sub>s</sub></th>
+                    <th scope="col" class="table-warning">x<sub>m</sub></th>
+                    <th scope="col" class="table-warning">|x<sub>mi</sub>-x<sub>mi+1</sub>| </th>
+                    <th scope="col" class="table-warning">f(x<sub>m</sub>)</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody">
+                  
+                </tbody>
+              </table>
+        </div>
+    </div>
+    
 
 </div>

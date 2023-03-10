@@ -1,3 +1,4 @@
+import { WriteVarExpr } from '@angular/compiler';
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { GraficarEcuaService } from '../graficar-ecua.service';
 @Component({
@@ -8,6 +9,7 @@ import { GraficarEcuaService } from '../graficar-ecua.service';
 export class GraficaComponent {
   @ViewChild('canvasRef', { static: false }) canvasRef: any;
 
+  public canvas: any = document.getElementById('canvas')!;
   public width: any;
   public height: any;
   public escala = 10;
@@ -17,27 +19,39 @@ export class GraficaComponent {
   // "x*x*x+2*(x*x)+10* x-20"
   public ecuacion: string = "";
   private contexto: CanvasRenderingContext2D;
-
+  
   constructor(private servicioGraficar: GraficarEcuaService) {
   }
-
+  
   ngOnInit(): void {
-    this.width = window.innerWidth - (window.innerWidth * 0.6);
-    this.height = window.innerHeight - (window.innerHeight * 0.1);
+
+    this.width = window.innerWidth ;
+    this.height = window.innerHeight ;
     this.ejex = this.width / 2;
     this.ejey = this.height / 2;
     this.servicioGraficar.disparador.subscribe(ecua => {
-      console.log(ecua);
+      // console.log(ecua);
       this.ecuacion = ecua;
-
+      
     })
     this.servicioGraficar.disparador.emit(this.render());
     this.servicioGraficar.disparador.subscribe(xm=>{
-      this.raiz = xm;
+      this.raiz = xm; 
     })
-
+    
   }
   ngAfterViewInit(): void {
+    
+    this.render();
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event?:any): void  {
+    this.width =event.target.innerWidth;
+    this.height = event.target.innerHeight;
+    this.ejex = this.width / 2;
+    this.ejey = this.height / 2;
+
+    // console.log('Window Size ', event.target.scrollY);
     this.render();
   }
 
@@ -49,18 +63,18 @@ export class GraficaComponent {
     switch (event.key) {
       
       case 'PageUp':
-        event.preventDefault;
-        if (this.escala > 140) {
-          this.escala = 10;
-        } else {
+        event.preventDefault();
+        // if (this.escala > 140) {
+          // this.escala = 10;
+        // } else {
           this.escala++;
-        }
+        // }
         // console.log(this.escala);
         this.render()
 
         break;
       case 'PageDown':
-        event.preventDefault;
+        event.preventDefault();
         if (this.escala < 5) {
           this.escala = 5;
         } else {
@@ -74,28 +88,28 @@ export class GraficaComponent {
         event.preventDefault();
         this.ejey--;
         this.render();
-        console.log(this.ejex);
+        // console.log(this.ejex);
 
         break;
       case 'ArrowUp':
         event.preventDefault();
         this.ejey++;
         this.render();
-        console.log(this.ejey);
+        // console.log(this.ejey);
 
         break;
       case 'ArrowRight':
-        event.preventDefault;
+        event.preventDefault();
         this.ejex--;
         this.render();
-        console.log(this.ejex);
+        // console.log(this.ejex);
 
         break;
       case 'ArrowLeft':
-        event.preventDefault;
+        event.preventDefault();
         this.ejex++;
         this.render();
-        console.log(this.ejey);
+        // console.log(this.ejey);
 
         break;
       default:
@@ -106,6 +120,8 @@ export class GraficaComponent {
   }
 
   private render(): any {
+    // let can =document.getElementById('can');
+    // console.log("width",can.getAttributeNS);
     //con nativeElement manipular directamente elementos del DOM, segun angular es mala práctica por que no permite reutilizar codigo
     const canvas: any = document.getElementById('canvas')!;;
     this.contexto = canvas.getContext('2d');
@@ -168,24 +184,28 @@ export class GraficaComponent {
     let x = (-10);
     let limite = (10);
     let resultado = (eval(ecua));
-    console.log("hol");
+    // console.log("hol");
     // console.log(resultado);
     contexto.beginPath();
-    for (let i = x; i < limite; i+=0.1) {
-      x=i;
-      contexto.lineTo(ejex + (i*escala), ejey -(resultado*escala));
+    for ( x; x < limite; x+=0.1) {
+     
+      contexto.lineTo(ejex + (x*escala), ejey - (resultado*escala));
       resultado = eval(ecua);
-      if (x<this.raiz && x>-this.raiz) {
-        contexto.stroke();
-        contexto.closePath();
-        contexto.beginPath();
-        contexto.fillStyle ="red";
-        contexto.arc(ejex + (i*escala), ejey -(resultado*escala), 4, 0, Math.PI * 2, true);
-        contexto.fill();
-        contexto.closePath();
-        contexto.beginPath();
-      }
-      console.log("resultado", resultado, "x", x);
+      // if (x==0) {
+      //   contexto.stroke();
+      //   contexto.closePath();
+      //   contexto.beginPath();
+      //   contexto.fillStyle ="red";
+      //   contexto.arc(ejex + (i*escala), ejey -(resultado*escala), 4, 0, Math.PI * 2, true);
+      //   contexto.fill();
+      //   contexto.closePath();
+      //   contexto.beginPath();
+      // }
+      
+      // console.log("Resultado",eval(ecua),ejex," ",ejey ); 
+      // console.log(x, " = ", eval(ecua));
+     
+      // console.log("resultado", resultado, "x", x);
     }
     contexto.stroke();
   }

@@ -1,8 +1,14 @@
-<div (document:keydown)="onPageUp($event)">
-    <canvas  class="rounded shadow-sm" id="canvas" #canvasRef>
-    </canvas>
+<div (document:keydown)="onPageUp($event)" (document:resize)="onResize($event)"  id="can">
+        <canvas  class="rounded shadow-sm " id="canvas" #canvasRef>
+        </canvas>
+
 
 </div>
+<!-- <div class="col-xs-6 col-sm-6" id="border">
+  <canvas id="canvas" width="500" height="300">  
+  </canvas>
+
+  </div> -->
 <!-- <div (window:resize)="onResize($event)">
     <canvas (window:resize)="onResize($event)" class="rounded shadow-sm" id="canvas" #canvasRef>
     </canvas>

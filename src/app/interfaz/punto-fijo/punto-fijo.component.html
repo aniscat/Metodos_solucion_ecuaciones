@@ -1,1 +1,44 @@
-<p>punto-fijo works!</p>
+<div class="container">
+    <h3>Método Punto Fijo</h3>
+    <form>
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label for="x_i">Introduce un valor inicial</label>
+                    <input class="form-control" type="number" name="x_i" placeholder="xi"id="x_i" >
+                </div>
+                <div class="col">
+                    <label for="iteraciones">Introduce las iteraciones</label>
+                    <input class="form-control" type="number" name="iteraciones" placeholder="iteraciones"id="iteraciones" >
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="error">Introduce el error permitido</label>
+            <input class="form-control" type="number" name="error" id="error" placeholder="Error" [(ngModel)]="error">
+        </div>
+        <br>
+        <div class="form-group">
+            <input class="form-control btn btn-primary" type="submit" value="Calcular" (click)="puntoFijo()">
+        </div>
+    </form>
+    <br>
+    <div class="table-responsive text-center row justify-content-center">
+        <div class="col-auto">
+            <table id="tablepf" class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col" class="table-warning">i</th>
+                    <th scope="col" class="table-warning">x<sub>i</sub></th>
+                    <th scope="col" class="table-warning">g(x<sub>i</sub>)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </table>
+        </div>
+    </div>
+
+
+</div>

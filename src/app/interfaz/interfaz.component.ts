@@ -9,28 +9,66 @@ import { GraficarEcuaService } from '../graficar-ecua.service';
 export class InterfazComponent {
   opcionSeleccionado: string = '0';
   verSeleccion: string = '';
-  public ecua:string = "x*x+4*x+4";  
-  
-  constructor(private servicioGraficar:GraficarEcuaService) {;  
+  public ecua: string = "x*x+4*x+4";
+
+  constructor(private servicioGraficar: GraficarEcuaService) {
+    ;
   }
-  ngOnInit(): void{
+  ngOnInit(): void {
     // this.ecua = (document.getElementById('ecuacion').innerHTML)!;
   }
 
-  capturar(){
-    this.verSeleccion = this.opcionSeleccionado; 
+  capturar() {
+    this.verSeleccion = this.opcionSeleccionado;
   }
-  resolver():void{
-    if(this.verSeleccion == 'Bisección'){
-      let metodo = (document.getElementById('biseccion'))!;
-      metodo.style.display = 'block';
+  resolver(): void {
+    let metodo = (document.getElementById('mensaje'))!;
+    metodo.style.display = 'none';
+    metodo = (document.getElementById('Newton-Raphson'))!;
+    metodo.style.display = 'none';
+    metodo = (document.getElementById('secante'))!;
+    metodo.style.display = 'none';
+    metodo = (document.getElementById('biseccion'))!;
+    metodo.style.display = 'none';
+    metodo = (document.getElementById('punto-fijo'))!;
+    metodo.style.display = 'none';
 
+    switch (this.verSeleccion) {
+
+      case 'Bisección':
+        metodo = (document.getElementById('biseccion'))!;
+        break;
+      case 'Punto Fijo':
+        metodo = (document.getElementById('punto-fijo'))!;
+        console.log("ahhh");
+        break;
+      case 'Newton-Raphson':
+        metodo = (document.getElementById('Newton-Raphson'))!;
+        break;
+      case "":
+        metodo = (document.getElementById("mensaje"))!;
+        console.log("ehhhhh");
+
+        break;
+      case 'Secante':
+        metodo = (document.getElementById('secante'))!;
+        break;
     }
+    metodo.style.display = 'block';
+
   }
   //Nada mas pasamos la ecua al componente graficar
-  graficar(){
+  graficar() {
+    let ecua = document.getElementById('ecuacion').innerHTML;
+    let mensaje = document.getElementById('mensaje2');
+    mensaje.style.display = 'none';
+    console.log(ecua);
+    
+    if(this.ecua ==""){
+      mensaje.style.display = 'block';
+    } 
     this.servicioGraficar.disparador.emit(this.ecua);
-    this.servicioGraficar.disparador.subscribe(render=>{
+    this.servicioGraficar.disparador.subscribe(render => {
       render();
     })
   }

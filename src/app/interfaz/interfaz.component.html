@@ -4,14 +4,14 @@
             <h1 class="text-center">Métodos de solución de ecuaciones</h1>
             <div class="form-group">
                 <label for="formula">Introduce la Ecuación</label>
-                <input class="form-control" type="text" name="ecuacion" id="ecuacion"  [(ngModel)]="ecua">
+                <input class="form-control" type="text" name="ecuacion" id="ecuacion"  [(ngModel)]="ecua" required>
             </div>
             <div class="form-group">
                 <label for="metodo">Selecciona un método</label>
-                <select name="opciones" class="form-control" [(ngModel)]="opcionSeleccionado" (change)="capturar()">
-                    <option value="0">Seleccionar...</option>
-                    <option value="Punto Fijo">Punto Fijo</option>
+                <select name="opciones" class="form-control" [(ngModel)]="opcionSeleccionado" (change)="capturar()" [required]>
+                    <option value="">Seleccionar...</option>
                     <option value="Bisección">Bisección</option>
+                    <option value="Punto Fijo">Punto Fijo</option>
                     <option value="Newton-Raphson">Newton-Raphson</option>
                     <option value="Secante">Secante</option>
                 </select>
@@ -30,7 +30,18 @@
             </div>
 
         </form>
+        <br>
         <div>
+            <div id="mensaje2">
+                <div class="alert alert-warning" role="alert">
+                    ¡Introduce una ecuación!
+                  </div>
+            </div>
+            <div id="mensaje">
+                <div class="alert alert-warning" role="alert">
+                    ¡Selecciona un método!
+                  </div>
+            </div>
             <div id="biseccion">
                 <!-- mandar una variable al componente hijo -->
                 <app-biseccion [ecua]="ecua"></app-biseccion>
